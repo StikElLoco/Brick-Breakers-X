@@ -7,9 +7,11 @@ public class MainManager : MonoBehaviour
 {
     [SerializeField] Rigidbody ball;
 
-    private bool hasStarted = false;
-    private bool isGameOver = false;
-    private bool isPaused = false;
+    private UiManager uiManager;
+
+    public bool hasStarted = false;
+    public bool isGameOver = false;
+    public bool isPaused = false;
 
     public int score;
     private float timer = 0.0f;
@@ -17,7 +19,8 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        uiManager = GetComponent<UiManager>();
+        Time.timeScale = 1.0f;
     }
 
     // Update is called once per frame
@@ -47,8 +50,26 @@ public class MainManager : MonoBehaviour
         {
             if (Input.GetButtonDown("Start"))
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                Restart();
             }
         }
+
+        //Call Pause menu
+        if (Input.GetButtonDown("Pause"))
+        {
+            if (!isPaused && !isGameOver)
+            {
+                uiManager.Pause();
+            }
+            else if (isPaused)
+            {
+                uiManager.UnPause();
+            }
+        }
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

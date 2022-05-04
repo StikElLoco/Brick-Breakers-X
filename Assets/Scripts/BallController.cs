@@ -21,7 +21,7 @@ public class BallController : MonoBehaviour
         //Check if completetly vertical
         if (Vector3.Dot(velocity.normalized, Vector3.up) < 0.1f)
         {
-            velocity += velocity.y > 0 ? Vector3.up * 0.5f : Vector3.down * 0.5f;
+            velocity += velocity.y > 0 ? Vector3.up * 1.0f : Vector3.down * 1.0f;
         }
         //Max velocity
         if (velocity.magnitude > 5.0f)

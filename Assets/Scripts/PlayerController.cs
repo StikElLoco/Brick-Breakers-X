@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private MainManager mainManager;
+
     [SerializeField] private float platformSpeed = 24.0f;
 
     private float horizontalInput;
@@ -12,13 +14,16 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Get Horizontal input to variable
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-
-        //Move platform
-        if (horizontalInput != 0)
+        if(mainManager.hasStarted)
         {
-            transform.Translate(Vector3.right * horizontalInput * platformSpeed * Time.deltaTime);
+            //Get Horizontal input to variable
+            horizontalInput = Input.GetAxisRaw("Horizontal");
+
+            //Move platform
+            if (horizontalInput != 0)
+            {
+                transform.Translate(Vector3.right * horizontalInput * platformSpeed * Time.deltaTime);
+            }
         }
 
         //Platform movement bounds
