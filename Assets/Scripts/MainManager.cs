@@ -8,18 +8,42 @@ public class MainManager : MonoBehaviour
     [SerializeField] Rigidbody ball;
 
     private UiManager uiManager;
+    private DataManager dataManager;
 
     public bool hasStarted = false;
     public bool isGameOver = false;
     public bool isPaused = false;
 
     public int score;
+    public int highscore;
     private float timer = 0.0f;
+
+    public float difficultyMultiplier = 1.0f;
 
     // Start is called before the first frame update
     void Start()
     {
         uiManager = GetComponent<UiManager>();
+        dataManager = GameObject.Find("DataManager").GetComponent<DataManager>();
+
+        if (dataManager != null)
+        {
+            if (dataManager.difficulty == 1)
+            {
+                difficultyMultiplier = 0.6f;
+            }
+            else if (dataManager.difficulty == 3)
+            {
+                difficultyMultiplier = 2.0f;
+            }
+            else
+            {
+                difficultyMultiplier = 1.0f;
+            }
+
+            highscore = dataManager.highscore;
+        }
+
         Time.timeScale = 1.0f;
     }
 
@@ -55,7 +79,7 @@ public class MainManager : MonoBehaviour
         }
 
         //Call Pause menu
-        if (Input.GetButtonDown("Pause"))
+        if (Input.GetButtonDown("Cancel"))
         {
             if (!isPaused && !isGameOver)
             {
@@ -68,8 +92,28 @@ public class MainManager : MonoBehaviour
         }
     }
 
+    public void CalculateScore()
+    {
+        Debug.Log("Score:" + score);
+        Debug.Log("Timer:" + timer);
+
+        timer /= 2;
+        score -= Mathf.RoundToInt(timer);
+        Debug.Log("Final Score: " + score);
+        if (score <= 0)
+        {
+            score = 0;
+        }
+    }
+
     public void Restart()
     {
+        CalculateScore();
+        if (score > highscore)
+        {
+            dataManager.highscore = score;
+            dataManager.Save();
+        }
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

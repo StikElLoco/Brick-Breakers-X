@@ -3014,6 +3014,8 @@ MonoBehaviour:
   isGameOver: 0
   isPaused: 0
   score: 0
+  highscore: 0
+  difficultyMultiplier: 1
 --- !u!114 &515903192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10399,6 +10401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 260295d64469f2e42887409fd3cf8a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainManager: {fileID: 515903191}
 --- !u!1 &1887531223
 GameObject:
   m_ObjectHideFlags: 0

@@ -48,18 +48,4 @@ public class DataManager : MonoBehaviour
             highscore = data.highscore;
         }
     }
-
-    //Choose Difficulty
-    public void Easy()
-    {
-        difficulty = 1;
-    }
-    public void Medium()
-    {
-        difficulty = 2;
-    }
-    public void Hard()
-    {
-        difficulty = 3;
-    }
 }
