@@ -9,17 +9,6 @@ public class PlayerController : MonoBehaviour
     private float horizontalInput;
     private float xRange = 17.25f;
 
-    private void Awake()
-    {
-
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {

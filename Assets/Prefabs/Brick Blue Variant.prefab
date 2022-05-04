@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1156420500220853157, guid: cb093a64d3f10dc4fa571dd56d07cb2f, type: 3}
       propertyPath: m_Name
-      value: Brick Blue
+      value: Brick Blue Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1156420500220853177, guid: cb093a64d3f10dc4fa571dd56d07cb2f, type: 3}
       propertyPath: m_RootOrder
@@ -59,5 +59,13 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 6c5e3c58698331f4fa5ba5fdb5553bb5, type: 2}
+    - target: {fileID: 8472960715426762578, guid: cb093a64d3f10dc4fa571dd56d07cb2f, type: 3}
+      propertyPath: brickHp
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472960715426762578, guid: cb093a64d3f10dc4fa571dd56d07cb2f, type: 3}
+      propertyPath: pointValue
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cb093a64d3f10dc4fa571dd56d07cb2f, type: 3}
