@@ -13,6 +13,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject chooseDifficulty;
     [SerializeField] GameObject confirmationMenu;
     [SerializeField] GameObject settings;
+    [SerializeField] GameObject easterEggMenu;
 
     [Header("TMP Text Fields")]
     [SerializeField] TMP_Text highscoreText;
@@ -30,6 +31,8 @@ public class MenuManager : MonoBehaviour
     public Toggle muteButton;
 
     private AudioSource audioSource;
+
+    private int i = 0;
     
 
     private void Start()
@@ -67,6 +70,15 @@ public class MenuManager : MonoBehaviour
             if (isQuitting)
             {
                 Menu();
+            }
+        }
+        //When Space is pressed
+        if (Input.GetButtonDown("Start"))
+        {
+            i++;
+            if (i == 5)
+            {
+                easterEggMenu.SetActive(true);
             }
         }
     }

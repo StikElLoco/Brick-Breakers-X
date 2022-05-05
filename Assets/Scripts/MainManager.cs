@@ -29,11 +29,11 @@ public class MainManager : MonoBehaviour
     void Start()
     {
         uiManager = GetComponent<UiManager>();
+        dataManager = GameObject.Find("DataManager").GetComponent<DataManager>();
         audioSource = GetComponent<AudioSource>();
 
         if (dataManager != null)
         {
-            dataManager = GameObject.Find("DataManager").GetComponent<DataManager>();
             if (dataManager.difficulty == 1)
             {
                 difficultyMultiplier = 0.6f;
@@ -48,6 +48,7 @@ public class MainManager : MonoBehaviour
             }
 
             highscore = dataManager.highscore;
+            audioSource.mute = dataManager.isMuted;
         }
 
         Time.timeScale = 1.0f;
