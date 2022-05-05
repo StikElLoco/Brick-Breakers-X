@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEditor;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
@@ -24,10 +25,22 @@ public class MenuManager : MonoBehaviour
     [SerializeField] bool isInChoice = false;
     [SerializeField] bool isQuitting = false;
 
+    [Header("Other")]
+    public bool isMuted;
+    public Toggle muteButton;
+
+    private AudioSource audioSource;
+    
+
     private void Start()
     {
         dataManager.Load();
+        audioSource = GetComponent<AudioSource>();
         highscoreText.text = "Highscore: " + dataManager.highscore;
+
+        isMuted = dataManager.isMuted;
+        audioSource.mute = isMuted;
+        muteButton.SetIsOnWithoutNotify(isMuted);
     }
 
     private void Update()
@@ -43,26 +56,35 @@ public class MenuManager : MonoBehaviour
             //If the difficulty choice window is open, close it and open the menu
             if (isInChoice)
             {
-                isInChoice = false;
-                mainMenu.SetActive(true);
-                chooseDifficulty.SetActive(false);
+                Menu();
             }
             //If the settings window is open, close it and open the menu
             if (isInSettings)
             {
-                isInSettings = false;
-                mainMenu.SetActive(true);
-                settings.SetActive(false);
+                Menu();
             }
             //If the quit confirmation window is open, close it and open the menu
             if (isQuitting)
             {
-                isQuitting = false;
-                mainMenu.SetActive(true);
-                confirmationMenu.SetActive(false);
+                Menu();
             }
         }
     }
+
+    //Opening the main menu
+    public void Menu()
+    {
+        isInChoice = false;
+        isInSettings = false;
+        isQuitting = false;
+
+        mainMenu.SetActive(true);
+
+        chooseDifficulty.SetActive(false);
+        settings.SetActive(false);
+        confirmationMenu.SetActive(false);
+    }
+
     //Pressing Start Game in the main menu
     public void ChooseDifficulty()
     {
@@ -73,6 +95,7 @@ public class MenuManager : MonoBehaviour
     //Load the game scene
     public void StartGame()
     {
+        dataManager.Save();
         SceneManager.LoadScene("MainScene");
     }
     //Open Settings window
@@ -126,5 +149,17 @@ public class MenuManager : MonoBehaviour
     {
         dataManager.difficulty = 3;
         StartGame();
+    }
+    //Play the button sellect sound, used for buttons but can be called from code as well. In this case using AudioSource.Play on the buttons would work as well
+    public void PlayAudioClip()
+    {
+        audioSource.Play();
+    }
+    //Mute toggle
+    public void Mute()
+    {
+        isMuted = !isMuted;
+        dataManager.isMuted = isMuted;
+        audioSource.mute = isMuted;
     }
 }

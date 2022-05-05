@@ -9,6 +9,7 @@ public class DataManager : MonoBehaviour
 
     public int difficulty = 2;
     public int highscore;
+    public bool isMuted;
 
     private void Awake()
     {
@@ -24,12 +25,14 @@ public class DataManager : MonoBehaviour
     class SaveData
     {
         public int highscore;
+        public bool isMuted;
     }
 
     public void Save()
     {
         SaveData data = new SaveData();
         data.highscore = highscore;
+        data.isMuted = isMuted;
 
         string json = JsonUtility.ToJson(data);
 
@@ -46,6 +49,7 @@ public class DataManager : MonoBehaviour
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
             highscore = data.highscore;
+            isMuted = data.isMuted;
         }
     }
 }
