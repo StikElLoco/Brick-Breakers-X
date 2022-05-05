@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,6 +13,9 @@ public class UiManager : MonoBehaviour
         mainManager = GetComponent<MainManager>();
     }
 
+    //Functions mostly called by buttons, they show/hide the correct menu
+
+    //Uses time Scale to effectively pause the game
     public void Pause()
     {
         mainManager.isPaused = true;
@@ -25,10 +26,10 @@ public class UiManager : MonoBehaviour
 
     public void UnPause()
     {
-            mainManager.isPaused = false;
-            Time.timeScale = 1.0f;
-            pauseMenu.SetActive(false);
-            confirmationMenu.SetActive(false);
+        mainManager.isPaused = false;
+        Time.timeScale = 1.0f;
+        pauseMenu.SetActive(false);
+        confirmationMenu.SetActive(false);
     }
 
     public void MenuConfirmation()

@@ -1,16 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BrickController : MonoBehaviour
 {
+    [Header("Brick Values")]
     [SerializeField] private int pointValue;
     [SerializeField] private int brickHp;
-    
+
+    [Header("MainManager Reference")]
+    [SerializeField] MainManager mainManager;
+
     private ParticleSystem[] brickParticle = new ParticleSystem[3];
     private int particleIndex;
-
-    [SerializeField] MainManager mainManager;
 
     private void Awake()
     {
@@ -23,6 +23,8 @@ public class BrickController : MonoBehaviour
     private void Start()
     {
         mainManager.maxScore += pointValue;
+
+        //uses the brick index to assign the correct particle system on each brick
         //if green brick
         if (pointValue == 2)
         {
@@ -46,6 +48,7 @@ public class BrickController : MonoBehaviour
 
         if (brickHp <= 0)
         {
+            //using the particleIndex move the correct particle system to the brick's location and play it
             switch(particleIndex)
             {
                 case 3:

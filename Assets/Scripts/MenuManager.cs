@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -37,12 +35,16 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
+        //Load player data
         dataManager.Load();
+
         audioSource = GetComponent<AudioSource>();
+        //Set highscore
         highscoreText.text = "Highscore: " + dataManager.highscore;
 
         isMuted = dataManager.isMuted;
         audioSource.mute = isMuted;
+        //Life saver, sets the checkmark of the mute toggle without triggering it's actions
         muteButton.SetIsOnWithoutNotify(isMuted);
     }
 

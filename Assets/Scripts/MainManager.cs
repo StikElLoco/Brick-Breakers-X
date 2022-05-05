@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -7,31 +5,34 @@ using TMPro;
 
 public class MainManager : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] Rigidbody ball;
     [SerializeField] TMP_Text scoreText;
     [SerializeField] AudioClip[] audioClips; //0-jump, 1-hit, 2-Explosion, 3-Select
+
+    [HideInInspector] public bool hasStarted = false;
+    [HideInInspector] public bool isGameOver = false;
+    [HideInInspector] public bool isPaused = false;
+
+    [HideInInspector] public int score, maxScore;
+    [HideInInspector] public int highscore;
+    [HideInInspector] public float difficultyMultiplier = 1.0f;
 
     private AudioSource audioSource;
     private UiManager uiManager;
     private DataManager dataManager;
 
-    public bool hasStarted = false;
-    public bool isGameOver = false;
-    public bool isPaused = false;
-
-    public int score, maxScore;
-    public int highscore;
     private float timer = 0.0f;
-
-    public float difficultyMultiplier = 1.0f;
 
     // Start is called before the first frame update
     void Start()
     {
+        //Object references
         uiManager = GetComponent<UiManager>();
         dataManager = GameObject.Find("DataManager").GetComponent<DataManager>();
         audioSource = GetComponent<AudioSource>();
 
+        //Check if DataManager exists, should always exist when loaded from the main menu
         if (dataManager != null)
         {
             if (dataManager.difficulty == 1)
@@ -46,11 +47,10 @@ public class MainManager : MonoBehaviour
             {
                 difficultyMultiplier = 1.0f;
             }
-
             highscore = dataManager.highscore;
             audioSource.mute = dataManager.isMuted;
         }
-
+        //Set time scale to 1, when using the Restart button as GameOver sets it to 0
         Time.timeScale = 1.0f;
     }
 
@@ -69,15 +69,13 @@ public class MainManager : MonoBehaviour
             if (Input.GetButtonDown("Start"))
             {
                 hasStarted = true;
-
-                Debug.Log("Maxscore: " + maxScore);
-
+                //generate random direction for the ball to start moving
                 float randomDirection = Random.Range(-1.0f, 1.0f);
                 Vector3 forceDir = new Vector3(randomDirection, 1, 0);
                 forceDir.Normalize();
-
+                //Add force to the ball
                 ball.AddForce(forceDir * 5.0f, ForceMode.VelocityChange);
-
+                //Play the jumping sound
                 PlayAudioClip(0);
             }
         }
@@ -115,14 +113,11 @@ public class MainManager : MonoBehaviour
         }
     }
 
+    //Score is calculated by halving the timer then subtracting that from the score, so high score is determined by how fast you can break all the bricks, highscore is more likely the higher the difficulty because the ball moves faster
     public void CalculateScore()
     {
-        Debug.Log("Score:" + score);
-        Debug.Log("Timer:" + timer);
-
         timer /= 2;
         score -= Mathf.RoundToInt(timer);
-        Debug.Log("Final Score: " + score);
         if (score <= 0)
         {
             score = 0;
