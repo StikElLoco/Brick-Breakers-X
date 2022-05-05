@@ -48,7 +48,7 @@ public class UiManager : MonoBehaviour
 
     public void ConfirmationYes()
     {
-        SceneManager.LoadScene("MainMenu");
+        mainManager.MainMenu();
     }
 
     public void ConfirmationNo()

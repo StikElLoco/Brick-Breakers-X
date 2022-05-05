@@ -123,6 +123,11 @@ public class MainManager : MonoBehaviour
             score = 0;
         }
         scoreText.text = "Score: " + score;
+        if (score > highscore)
+        {
+            dataManager.highscore = score;
+            dataManager.Save();
+        }
     }
 
     public void Restart()
@@ -133,6 +138,11 @@ public class MainManager : MonoBehaviour
             dataManager.Save();
         }
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void PlayAudioClip(int selection)
