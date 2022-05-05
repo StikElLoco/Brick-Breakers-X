@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
+
 
 public class MainManager : MonoBehaviour
 {
     [SerializeField] Rigidbody ball;
+    [SerializeField] TMP_Text scoreText;
+    [SerializeField] AudioClip[] audioClips; //0-jump, 1-hit, 2-Explosion, 3-Select
 
+    private AudioSource audioSource;
     private UiManager uiManager;
     private DataManager dataManager;
 
@@ -14,7 +19,7 @@ public class MainManager : MonoBehaviour
     public bool isGameOver = false;
     public bool isPaused = false;
 
-    public int score;
+    public int score, maxScore;
     public int highscore;
     private float timer = 0.0f;
 
@@ -24,10 +29,11 @@ public class MainManager : MonoBehaviour
     void Start()
     {
         uiManager = GetComponent<UiManager>();
-        dataManager = GameObject.Find("DataManager").GetComponent<DataManager>();
+        audioSource = GetComponent<AudioSource>();
 
         if (dataManager != null)
         {
+            dataManager = GameObject.Find("DataManager").GetComponent<DataManager>();
             if (dataManager.difficulty == 1)
             {
                 difficultyMultiplier = 0.6f;
@@ -63,17 +69,22 @@ public class MainManager : MonoBehaviour
             {
                 hasStarted = true;
 
+                Debug.Log("Maxscore: " + maxScore);
+
                 float randomDirection = Random.Range(-1.0f, 1.0f);
                 Vector3 forceDir = new Vector3(randomDirection, 1, 0);
                 forceDir.Normalize();
 
                 ball.AddForce(forceDir * 5.0f, ForceMode.VelocityChange);
+
+                PlayAudioClip(0);
             }
         }
         else if (isGameOver)
         {
             if (Input.GetButtonDown("Start"))
             {
+                PlayAudioClip(3);
                 Restart();
             }
         }
@@ -83,12 +94,23 @@ public class MainManager : MonoBehaviour
         {
             if (!isPaused && !isGameOver)
             {
+                PlayAudioClip(3);
                 uiManager.Pause();
             }
             else if (isPaused)
             {
+                PlayAudioClip(3);
                 uiManager.UnPause();
             }
+        }
+    }
+
+    private void LateUpdate()
+    {
+        //Check if all blocks destroyed, maxScore is sent by each BrickController on Start(), this way it will change/work for additional levels
+        if (score >= maxScore)
+        {
+            uiManager.GameOver();
         }
     }
 
@@ -104,16 +126,21 @@ public class MainManager : MonoBehaviour
         {
             score = 0;
         }
+        scoreText.text = "Score: " + score;
     }
 
     public void Restart()
     {
-        CalculateScore();
         if (score > highscore)
         {
             dataManager.highscore = score;
             dataManager.Save();
         }
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void PlayAudioClip(int selection)
+    {
+        audioSource.PlayOneShot(audioClips[selection], 1.0f);
     }
 }

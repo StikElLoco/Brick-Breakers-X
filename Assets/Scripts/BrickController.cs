@@ -9,9 +9,14 @@ public class BrickController : MonoBehaviour
 
     [SerializeField] MainManager mainManager;
 
-    private void Start()
+    private void Awake()
     {
         mainManager = GameObject.Find("MainManager").GetComponent<MainManager>();
+    }
+
+    private void Start()
+    {
+        mainManager.maxScore += pointValue;
     }
 
     private void OnCollisionEnter(Collision other)
@@ -20,6 +25,7 @@ public class BrickController : MonoBehaviour
 
         if (brickHp <= 0)
         {
+            mainManager.PlayAudioClip(2);
             mainManager.score += pointValue;
             Destroy(gameObject, 0.1f);
         }

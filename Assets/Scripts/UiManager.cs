@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class UiManager : MonoBehaviour
 {
     private MainManager mainManager;
@@ -64,6 +65,7 @@ public class UiManager : MonoBehaviour
     public void GameOver()
     {
         Time.timeScale = 0.0f;
+        mainManager.CalculateScore();
         confirmationMenu.SetActive(false);
         gameOverMenu.SetActive(true);
     }

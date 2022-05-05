@@ -13,6 +13,11 @@ public class BallController : MonoBehaviour
         ballRb = GetComponent<Rigidbody>();
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        mainManager.PlayAudioClip(1);
+    }
+
     private void OnCollisionExit(Collision other)
     {
         //Get ball velocity
