@@ -8,25 +8,17 @@ public class BrickSpawner : MonoBehaviour
     [SerializeField] GameObject[] brickPrefabs;
     [SerializeField] int spawnPattern = 0;
 
-    public List<Transform> spawnLocations;
-    //What the fuck https://forum.unity.com/threads/list-or-array-of-lists.513443/
-    public List<List<int>> numbers = new List<List<int>>();
+    [SerializeField] List<List<Transform>> spawnLocations = new List<List<Transform>>();
 
     // Start is called before the first frame update
     void Start()
     {
+
         for(int i = 0; i < brickLines.Length; i++)
         {
-            spawnLocations = GetChildren(brickLines[i].transform);
+            spawnLocations.Add(GetChildren(brickLines[i].transform));
+            SpawnBricks(spawnPattern, i, spawnLocations[i]);
         }
-        //TO DO: Make list of lists or array of lists?
-        SpawnBricks(spawnPattern, spawnLocations);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     List<Transform> GetChildren(Transform parent)
@@ -41,7 +33,7 @@ public class BrickSpawner : MonoBehaviour
         return children;
     }
 
-    void SpawnBricks(int pattern, List<Transform> locations)
+    void SpawnBricks(int pattern, int line, List<Transform> locations)
     {
         if (pattern == 0)
         {
@@ -59,7 +51,24 @@ public class BrickSpawner : MonoBehaviour
             }
         }
 
+        if (pattern == 2)
+        {
+            foreach (Transform child in locations)
+            {
+                if (line == 0 || line == 1)
+                {
+                    Instantiate(brickPrefabs[2], child);
+                }
+                if (line == 2 || line == 3)
+                {
+                    Instantiate(brickPrefabs[1], child);
+                }
+                if (line == 4 || line == 5 || line == 6 || line == 7)
+                {
+                    Instantiate(brickPrefabs[0], child);
+                }
+            }
+        }
     }
-
 }
 

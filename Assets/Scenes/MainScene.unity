@@ -2576,8 +2576,7 @@ MonoBehaviour:
   - {fileID: 1156420500220853157, guid: cb093a64d3f10dc4fa571dd56d07cb2f, type: 3}
   - {fileID: 112480148351344612, guid: b7ee288065b32f341a987bae332b3aee, type: 3}
   - {fileID: 6886513884764662068, guid: 3933aa537400c334fbe99d8bb9638f69, type: 3}
-  spawnPattern: 0
-  spawnLocations: []
+  spawnPattern: 2
 --- !u!1 &578831590
 GameObject:
   m_ObjectHideFlags: 0
