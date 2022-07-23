@@ -9,6 +9,7 @@ public class MenuManager : MonoBehaviour
     [Header("Menu Parents")]
     [SerializeField] GameObject mainMenu;
     [SerializeField] GameObject chooseDifficulty;
+    [SerializeField] GameObject choosePattern;
     [SerializeField] GameObject confirmationMenu;
     [SerializeField] GameObject settings;
     [SerializeField] GameObject easterEggMenu;
@@ -35,6 +36,8 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
+        dataManager = GameObject.Find("DataManager").GetComponent<DataManager>();
+
         //Load player data
         dataManager.Load();
 
@@ -95,6 +98,7 @@ public class MenuManager : MonoBehaviour
         mainMenu.SetActive(true);
 
         chooseDifficulty.SetActive(false);
+        choosePattern.SetActive(false);
         settings.SetActive(false);
         confirmationMenu.SetActive(false);
     }
@@ -106,6 +110,14 @@ public class MenuManager : MonoBehaviour
         mainMenu.SetActive(false);
         chooseDifficulty.SetActive(true);
     }
+    //Pressing on difficulty setting
+    public void ChoosePattern()
+    {
+        isInChoice = true;
+        chooseDifficulty.SetActive(false);
+        choosePattern.SetActive(true);
+    }
+
     //Load the game scene
     public void StartGame()
     {
@@ -152,18 +164,26 @@ public class MenuManager : MonoBehaviour
     public void Easy()
     {
         dataManager.difficulty = 1;
-        StartGame();
+        ChoosePattern();
     }
     public void Medium()
     {
         dataManager.difficulty = 2;
-        StartGame();
+        ChoosePattern();
     }
     public void Hard()
     {
         dataManager.difficulty = 3;
+        ChoosePattern();
+    }
+
+    //Pattern input
+    public void Pattern(int pattern)
+    {
+        dataManager.pattern = pattern;
         StartGame();
     }
+
     //Play the button sellect sound, used for buttons but can be called from code as well. In this case using AudioSource.Play on the buttons would work as well
     public void PlayAudioClip()
     {

@@ -6,6 +6,7 @@ public class DataManager : MonoBehaviour
     public static DataManager Instance;
 
     public int difficulty = 2;
+    public int pattern = 0;
     public int highscore;
     public bool isMuted;
 
